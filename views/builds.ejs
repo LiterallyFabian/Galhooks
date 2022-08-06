@@ -52,13 +52,26 @@
         },
         columns: [
             {data: 'build_number'},
-            {data: 'build_time',
+            {
+                data: 'build_time',
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                     $(nTd).html(new Date(oData.build_time).toLocaleString());
-                }},
-            {data: 'project_name'},
-            {data: 'build_target_name'},
-            {data: 'file_size'},
+                }
+            },
+            {
+                data: 'project_name'
+            },
+            {
+                data: 'build_target_name'
+            },
+            {
+                data: 'file_size',
+                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                    let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+                    let i = Math.floor(Math.log(oData.file_size) / Math.log(1024));
+                    $(nTd).html((oData.file_size / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i]);
+                }
+            },
             {
                 data: 'url',
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
